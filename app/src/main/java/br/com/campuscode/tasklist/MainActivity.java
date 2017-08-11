@@ -1,6 +1,8 @@
 package br.com.campuscode.tasklist;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -28,26 +31,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
         fab.setOnClickListener(this);
-
-        model = new ArrayList<>();
-        model.add("Fazer pastel");
-        model.add("Fazer hamburger");
-        model.add("Fazer batata frita");
-        model.add("Fazer guacamole");
-        model.add("Fazer uma saladinha");
-
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, model);
-        listView.setAdapter(adapter);
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //TODO obtenha os dados da sharedPreference
-        //TODO coloque os dados no modelo
-        //TODO notifique o adapter que houve mudança no modelo
+        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(this);
+        model = Arrays.asList(shared.getString("pastel", "").split(","));
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, model);
+        listView.setAdapter(adapter);
+
+        //TODO obtenha os dados da sharedPreference OK
+        //TODO coloque os dados no modelo OK
+        //TODO notifique o adapter que houve mudança no modelo OK
     }
 
     @Override
